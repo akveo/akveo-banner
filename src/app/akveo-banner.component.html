@@ -1,11 +1,13 @@
 <div class="heading-with-icon">
-  <img *ngIf="imageLink" class="icon" [src]="imageLink" [alt]="imageAlt">
+  <img *ngIf="imageUrl" class="icon" [src]="imageUrl" [alt]="imageAlt">
   <div class="banner-content">
     <h2 class="banner-heading">{{ heading }}</h2>
     <p class="cta">
       <a class="cta-link"
          [href]="ctaLink"
-         target="_blank">
+         target="_blank"
+         [style.background-color]="buttonBgColor"
+         [style.color]="buttonTextColor">
         {{ ctaText }}
       </a>
       {{ message }}

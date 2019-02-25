@@ -23,7 +23,7 @@ export class AkveoBannerComponent implements OnInit {
   @Input() heading = 'Some great news today!';
   @Input() ctaText = 'Share';
   @Input() ctaLink = 'https://akveo.com';
-  @Input() imageLink = '';
+  @Input() imageUrl = '';
   @Input() imageAlt = '';
   @Input() message = 'your love';
   @Input() showClose = true;
@@ -34,6 +34,9 @@ export class AkveoBannerComponent implements OnInit {
 
   @HostBinding('style.color')
   @Input() textColor = 'white';
+
+  @Input() buttonBgColor = '#fff';
+  @Input() buttonTextColor = '#000';
 
   @HostBinding('style.box-shadow')
   get shadow() {
