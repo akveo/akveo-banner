@@ -1,16 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
+import { createCustomElement } from '@angular/elements';
 
-import { AppComponent } from './app.component';
+import { AkveoBannerComponent } from './akveo-banner.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AkveoBannerComponent
   ],
   imports: [
     BrowserModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  entryComponents: [AkveoBannerComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+  constructor(private injector: Injector) {
+    const customElement = createCustomElement(AkveoBannerComponent, { injector });
+    customElements.define('akveo-banner', customElement);
+  }
+
+  ngDoBootstrap() {}
+}

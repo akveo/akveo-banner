@@ -1,0 +1,17 @@
+<div class="heading-with-icon">
+  <img *ngIf="imageLink" class="icon" [src]="imageLink" [alt]="imageAlt">
+  <div class="banner-content">
+    <h2 class="banner-heading">{{ heading }}</h2>
+    <p class="cta">
+      <a class="cta-link"
+         [href]="ctaLink"
+         target="_blank">
+        {{ ctaText }}
+      </a>
+      {{ message }}
+    </p>
+  </div>
+  <button *ngIf="showClose" class="close-button" aria-label="close" (click)="closeBanner()">
+    <span>&times;</span>
+  </button>
+</div>
