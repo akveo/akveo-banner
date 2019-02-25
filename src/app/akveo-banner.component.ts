@@ -1,4 +1,4 @@
-import { Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as tinycolor from 'tinycolor2';
 
@@ -44,7 +44,7 @@ export class AkveoBannerComponent implements OnInit {
     return `${HIDE_BANNER_KEY}${this.uniqueId}`;
   }
 
-  constructor(private sanitizer: DomSanitizer) {
+  constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef, private appRef: ApplicationRef) {
   }
 
   ngOnInit() {
@@ -52,6 +52,9 @@ export class AkveoBannerComponent implements OnInit {
     this.isHidden = this.storage && this.storage.getItem(this.id)
       ? true
       : null;
+
+    this.cd.markForCheck();
+    this.appRef.tick();
   }
 
   closeBanner() {
@@ -59,5 +62,8 @@ export class AkveoBannerComponent implements OnInit {
       this.storage.setItem(this.id, 'true');
     }
     this.isHidden = true;
+
+    this.cd.markForCheck();
+    this.appRef.tick();
   }
 }
