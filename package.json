@@ -8,7 +8,9 @@
     "build:elements": "ng build --prod --output-hashing none && node scripts/elements-build.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "publish": "npm publish --access=public package-build",
+    "release": "npm run build:elements && npm run publish"
   },
   "private": true,
   "dependencies": {
@@ -27,7 +29,7 @@
     "document-register-element": "^1.7.2",
     "rxjs": "~6.3.3",
     "tinycolor2": "^1.4.1",
-    "zone.js": "~0.8.26"
+    "zone.js": "git://github.com/JiaLiPassion/zone.js#release-20190108"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.10.0",
