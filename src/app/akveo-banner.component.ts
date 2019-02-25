@@ -45,7 +45,6 @@ export class AkveoBannerComponent implements OnInit {
   }
 
   constructor(private sanitizer: DomSanitizer) {
-
   }
 
   ngOnInit() {

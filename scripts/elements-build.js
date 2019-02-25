@@ -9,10 +9,14 @@ const concat = require('concat');
     './dist/akveo-banner/main.js'
   ];
 
-  await fs.ensureDir('lib');
-  await concat(files, 'lib/akveo-banner.js');
+  await fs.ensureDir('package-build');
+  await concat(files, 'package-build/akveo-banner.js');
   await fs.copyFile(
     './dist/akveo-banner/styles.css',
-    'lib/styles.css'
+    'package-build/styles.css'
+  );
+  await fs.copyFile(
+    './scripts/package.json',
+    'package-build/package.json'
   );
 })();
