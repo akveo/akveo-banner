@@ -8,7 +8,7 @@ const HIDE_BANNER_KEY = 'HIDE_AKVEO_BANNER';
   selector: 'akveo-banner',
   templateUrl: './akveo-banner.component.html',
   styleUrls: ['./akveo-banner.component.scss'],
-  encapsulation: ViewEncapsulation.ShadowDom
+  encapsulation: ViewEncapsulation.Native
 })
 export class AkveoBannerComponent implements OnInit {
 
@@ -20,12 +20,12 @@ export class AkveoBannerComponent implements OnInit {
   @HostBinding('attr.dir')
   dir = 'ltr';
 
-  @Input() heading = 'Some great news today!';
-  @Input() ctaText = 'Share';
-  @Input() ctaLink = 'https://akveo.com';
+  @Input() heading = '';
+  @Input() ctaText = '';
+  @Input() ctaLink = '';
   @Input() imageUrl = '';
   @Input() imageAlt = '';
-  @Input() message = 'your love';
+  @Input() message = '';
   @Input() showClose = true;
   @Input() uniqueId = '';
 
@@ -56,8 +56,7 @@ export class AkveoBannerComponent implements OnInit {
       ? true
       : null;
 
-    this.cd.markForCheck();
-    this.appRef.tick();
+    this.refresh();
   }
 
   closeBanner() {
@@ -65,7 +64,10 @@ export class AkveoBannerComponent implements OnInit {
       this.storage.setItem(this.id, 'true');
     }
     this.isHidden = true;
+    this.refresh();
+  }
 
+  protected refresh () {
     this.cd.markForCheck();
     this.appRef.tick();
   }

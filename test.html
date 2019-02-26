@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AkveoBanner</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <script type="text/javascript" >
+    (function (d, w) {
+      var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+      s.type = "text/javascript";
+      s.async = true;
+      s.src = "https://unpkg.com/akveo-banner@1.1.2";
+
+      if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+      } else { f(); }
+    })(document, window);
+  </script>
+
+</head>
+<body>
+<script type="text/javascript" >
+  (function (d, w) {
+    var banner = this.document.createElement('akveo-banner');
+    banner.uniqueId = "bundle-release-1";
+    banner.imageUrl = "https://i.imgur.com/8lN9Ivk.png";
+    banner.heading = "ngx-admin with .NET, PHP, Java!";
+    banner.ctaText = "Get Backend Bundle";
+    banner.ctaLink = "https://store.akveo.com?utm_campaign=bundle_banner";
+    banner.message = "today to save 25%";
+    banner.bgColor = '#FF5A88';
+    banner.buttonBgColor = '#fff';
+    d.body.appendChild(banner);
+  })(document, window);
+</script>
+</body>
+</html>
