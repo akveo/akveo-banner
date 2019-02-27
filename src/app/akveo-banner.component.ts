@@ -63,7 +63,7 @@ export class AkveoBannerComponent implements OnInit {
   }
 
   get buttonShadow() {
-    return this.sanitizer.bypassSecurityTrustStyle(`2px 3px 6px 0 ${tinycolor(this.buttonBgColor).setAlpha(0.5)}`);
+    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${tinycolor(this.buttonBgColor).setAlpha(0.5)}`);
   }
 
   get id() {
