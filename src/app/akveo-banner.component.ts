@@ -28,9 +28,27 @@ export class AkveoBannerComponent implements OnInit {
   @Input() message = '';
   @Input() showClose = true;
   @Input() uniqueId = '';
+  @Input() bgGradient = [];
+
+  @HostBinding('style.top')
+  @Input() top = '';
+
+  @HostBinding('style.left')
+  @Input() left = '';
+
+  @HostBinding('style.right')
+  @Input() right = '';
+
+  @HostBinding('style.bottom')
+  @Input() bottom = '';
 
   @HostBinding('style.background-color')
-  @Input() bgColor = '#3366FF';
+  @Input() bgColor = '';
+
+  @HostBinding('style.background-image')
+  get gradient() {
+    return this.bgGradient ? `linear-gradient(${this.bgGradient.join(',')})` : '';
+  }
 
   @HostBinding('style.color')
   @Input() textColor = 'white';
@@ -40,7 +58,12 @@ export class AkveoBannerComponent implements OnInit {
 
   @HostBinding('style.box-shadow')
   get shadow() {
-    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${tinycolor(this.bgColor).setAlpha(0.5)}`);
+    const color = this.bgGradient && this.bgGradient.length ? this.bgGradient[1] : this.bgColor;
+    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${tinycolor(color).setAlpha(0.5)}`);
+  }
+
+  get buttonShadow() {
+    return this.sanitizer.bypassSecurityTrustStyle(`2px 3px 6px 0 ${tinycolor(this.buttonBgColor).setAlpha(0.5)}`);
   }
 
   get id() {

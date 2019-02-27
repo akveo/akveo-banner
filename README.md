@@ -18,8 +18,11 @@ banner.heading = "Great news! We released something!";
 banner.ctaText = "Check Out";
 banner.ctaLink = "https://akveo.com";
 banner.message = "to learn more";
-banner.bgColor = '#FF5A88';
-banner.buttonBgColor = '#fff';
+banner.bgGradient = ['to left', '#6BD596', '#AEE18F'];
+banner.buttonBgColor = '#FC5C89';
+banner.buttonTextColor = '#fff'; 
+banner.top = '20vh';
+banner.right = '1.5rem';
 
 ```
 
