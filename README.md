@@ -1,6 +1,6 @@
 ## Akveo Banner Web Component
 
-Akveo News banner build on top of Angular Elements.
+Akveo News banner built on top of Angular Elements.
 
 For internal usage.
 
