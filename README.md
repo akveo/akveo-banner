@@ -1,27 +1,42 @@
-# AkveoBanner
+## Akveo Banner Web Component
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
+Akveo News banner build on top of Angular Elements.
 
-## Development server
+For internal usage.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
+## How To Use
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Include the script
+2. Instantiate the banner component
 
-## Build
+```js
+var banner = this.document.createElement('akveo-banner');
+banner.uniqueId = "some-banner-id";
+banner.imageUrl = "https://i.imgur.com/8lN9Ivk.png";
+banner.heading = "Great news! We released something!";
+banner.ctaText = "Check Out";
+banner.ctaLink = "https://akveo.com";
+banner.message = "to learn more";
+banner.bgColor = '#FF5A88';
+banner.buttonBgColor = '#fff';
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
 
-## Running unit tests
+3. Append to body
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```js
+document.body.appendChild(banner);
+```
 
-## Running end-to-end tests
+## How To Validate
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+1. make changes
+2. build `npm run build:elements`
+3. run `http-server ./` and open http://127.0.0.1:8081/test.html
 
-## Further help
+## How To Release
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+1. make changes, commit
+2. update `scripts/package.json` version
+3. run `npm run release`
