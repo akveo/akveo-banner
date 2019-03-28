@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as tinycolor from 'tinycolor2';
 
@@ -10,7 +10,7 @@ const HIDE_BANNER_KEY = 'HIDE_AKVEO_BANNER';
   styleUrls: ['./akveo-banner.component.scss'],
   encapsulation: ViewEncapsulation.Native
 })
-export class AkveoBannerComponent implements OnInit {
+export class AkveoBannerComponent implements OnInit, AfterViewInit {
 
   storage: Storage;
 
@@ -88,6 +88,17 @@ export class AkveoBannerComponent implements OnInit {
     }
     this.isHidden = true;
     this.refresh();
+
+    this.fireEvent('akveo-banner-close');
+  }
+
+  ngAfterViewInit() {
+    this.fireEvent('akveo-banner-init');
+  }
+
+  protected fireEvent(name: string) {
+    const event = new CustomEvent(name, { detail: { banner: this } });
+    document.dispatchEvent(event);
   }
 
   protected refresh () {
