@@ -1,0 +1,12 @@
+<p>
+  {{ messageStart }}
+  <a class="cta-link"
+     [href]="ctaLink"
+     target="_blank">
+    {{ ctaText }}
+  </a>
+  {{ messageEnd }}
+</p>
+<button *ngIf="showClose" class="close-button" aria-label="close" (click)="closeBanner()">
+  <span>&times;</span>
+</button>

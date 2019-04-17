@@ -1,8 +1,9 @@
-import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as tinycolor from 'tinycolor2';
 
 const HIDE_BANNER_KEY = 'HIDE_AKVEO_BANNER';
+const BANNER_CLASS = 'akveo-banner';
 
 @Component({
   selector: 'akveo-banner',
@@ -70,16 +71,15 @@ export class AkveoBannerComponent implements OnInit, AfterViewInit {
     return `${HIDE_BANNER_KEY}${this.uniqueId}`;
   }
 
-  constructor(private sanitizer: DomSanitizer, private cd: ChangeDetectorRef, private appRef: ApplicationRef) {
+  constructor(private sanitizer: DomSanitizer,
+              private cd: ChangeDetectorRef,
+              private appRef: ApplicationRef,
+              private renderer: Renderer2) {
   }
 
   ngOnInit() {
     this.storage = window.localStorage;
-    this.isHidden = this.storage && this.storage.getItem(this.id)
-      ? true
-      : null;
-
-    this.refresh();
+    this.listenToVisibilityChange();
   }
 
   closeBanner() {
@@ -88,7 +88,7 @@ export class AkveoBannerComponent implements OnInit, AfterViewInit {
     }
     this.isHidden = true;
     this.refresh();
-
+    this.renderer.removeClass(document.documentElement, BANNER_CLASS);
     this.fireEvent('akveo-banner-close');
   }
 
@@ -104,5 +104,28 @@ export class AkveoBannerComponent implements OnInit, AfterViewInit {
   protected refresh () {
     this.cd.markForCheck();
     this.appRef.tick();
+  }
+
+  protected listenToVisibilityChange() {
+
+    const visibilityChange = (mq) => {
+      this.isHidden = mq.matches && !this.isHiddenByUser() ? null : true;
+
+      this.refresh();
+
+      if (!this.isHidden) {
+        this.renderer.addClass(document.documentElement, BANNER_CLASS);
+      } else {
+        this.renderer.removeClass(document.documentElement, BANNER_CLASS);
+      }
+    };
+    const mediaQuery = window.matchMedia('(min-width: 767px)');
+    mediaQuery.addListener(visibilityChange);
+    visibilityChange(mediaQuery);
+  }
+
+  protected isHiddenByUser() {
+    this.storage = window.localStorage;
+    return this.storage && this.storage.getItem(this.id) ? true : null;
   }
 }

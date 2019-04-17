@@ -26,6 +26,18 @@ banner.right = '1.5rem';
 
 ```
 
+or 
+
+```js
+var banner = this.document.createElement('akveo-news-line');
+banner.uniqueId = "some-banner-id";
+banner.ctaText = "Try a beta now!";
+banner.ctaLink = "https://akveo.com";
+banner.messageStart = "Congrats! You have access to the app.";
+banner.bgGradient = ['270deg', '#5B18FF 0%', '#1849FF 100%'];
+banner.messageEnd = "We need your feedback.";
+````
+
 3. Append to body
 
 ```js
