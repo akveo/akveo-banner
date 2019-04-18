@@ -1,9 +1,17 @@
-import { AfterViewInit, ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+  Renderer2,
+  ViewEncapsulation
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as tinycolor from 'tinycolor2';
-
-const HIDE_BANNER_KEY = 'HIDE_AKVEO_BANNER';
-const BANNER_CLASS = 'akveo-banner';
+import { BaseBannerComponent } from '../base-banner.component';
 
 @Component({
   selector: 'akveo-banner',
@@ -11,12 +19,15 @@ const BANNER_CLASS = 'akveo-banner';
   styleUrls: ['./akveo-banner.component.scss'],
   encapsulation: ViewEncapsulation.Native
 })
-export class AkveoBannerComponent implements OnInit, AfterViewInit {
+export class AkveoBannerComponent extends BaseBannerComponent implements OnInit, AfterViewInit {
 
-  storage: Storage;
+  bannerClass = 'akveo-banner';
+  bannerKey = 'HIDE_AKVEO_BANNER';
 
   @HostBinding('attr.hidden')
-  isHidden: true | null = null;
+  get isHidden() {
+    return this.visible ? null : true;
+  }
 
   @HostBinding('attr.dir')
   dir = 'ltr';
@@ -60,72 +71,31 @@ export class AkveoBannerComponent implements OnInit, AfterViewInit {
   @HostBinding('style.box-shadow')
   get shadow() {
     const color = this.bgGradient && this.bgGradient.length ? this.bgGradient[1] : this.bgColor;
-    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${tinycolor(color).setAlpha(0.5)}`);
+    return this.createShadow(color);
   }
 
   get buttonShadow() {
-    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${tinycolor(this.buttonBgColor).setAlpha(0.5)}`);
+    return this.createShadow(this.buttonBgColor);
   }
 
-  get id() {
-    return `${HIDE_BANNER_KEY}${this.uniqueId}`;
-  }
+  constructor(protected sanitizer: DomSanitizer,
+              protected cd: ChangeDetectorRef,
+              protected appRef: ApplicationRef,
+              protected renderer: Renderer2) {
 
-  constructor(private sanitizer: DomSanitizer,
-              private cd: ChangeDetectorRef,
-              private appRef: ApplicationRef,
-              private renderer: Renderer2) {
+    super(cd, appRef, renderer);
   }
 
   ngOnInit() {
-    this.storage = window.localStorage;
     this.listenToVisibilityChange();
   }
 
-  closeBanner() {
-    if (this.storage) {
-      this.storage.setItem(this.id, 'true');
-    }
-    this.isHidden = true;
-    this.refresh();
-    this.renderer.removeClass(document.documentElement, BANNER_CLASS);
-    this.fireEvent('akveo-banner-close');
-  }
-
   ngAfterViewInit() {
-    this.fireEvent('akveo-banner-init');
+    this.fireEvent(this.openEvent);
   }
 
-  protected fireEvent(name: string) {
-    const event = new CustomEvent(name, { detail: { banner: this } });
-    document.dispatchEvent(event);
-  }
-
-  protected refresh () {
-    this.cd.markForCheck();
-    this.appRef.tick();
-  }
-
-  protected listenToVisibilityChange() {
-
-    const visibilityChange = (mq) => {
-      this.isHidden = mq.matches && !this.isHiddenByUser() ? null : true;
-
-      this.refresh();
-
-      if (!this.isHidden) {
-        this.renderer.addClass(document.documentElement, BANNER_CLASS);
-      } else {
-        this.renderer.removeClass(document.documentElement, BANNER_CLASS);
-      }
-    };
-    const mediaQuery = window.matchMedia('(min-width: 767px)');
-    mediaQuery.addListener(visibilityChange);
-    visibilityChange(mediaQuery);
-  }
-
-  protected isHiddenByUser() {
-    this.storage = window.localStorage;
-    return this.storage && this.storage.getItem(this.id) ? true : null;
+  protected createShadow(color: string) {
+    const shadowColor = tinycolor(color).setAlpha(0.5);
+    return this.sanitizer.bypassSecurityTrustStyle(`0 2px 4px 0 ${shadowColor}`);
   }
 }

@@ -1,8 +1,17 @@
-import { ApplicationRef, ChangeDetectorRef, Component, HostBinding, Input, OnInit, Renderer2, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  ApplicationRef,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  Input,
+  OnInit,
+  Renderer2,
+  ViewEncapsulation
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { BaseBannerComponent } from '../base-banner.component';
 
-const HIDE_BANNER_KEY = 'HIDE_AKVEO_NEWS_LINE';
-const BANNER_CLASS = 'akveo-news-line';
 
 @Component({
   selector: 'akveo-news-line',
@@ -10,12 +19,15 @@ const BANNER_CLASS = 'akveo-news-line';
   styleUrls: ['./akveo-news-line.component.scss'],
   encapsulation: ViewEncapsulation.Native
 })
-export class AkveoNewsLineComponent implements OnInit {
+export class AkveoNewsLineComponent extends BaseBannerComponent implements OnInit, AfterViewInit {
 
-  storage: Storage;
+  bannerClass = 'akveo-news-line';
+  bannerKey = 'HIDE_AKVEO_NEWS_LINE';
 
   @HostBinding('attr.hidden')
-  isHidden: true | null = null;
+  get isHidden() {
+    return this.visible ? null : true;
+  }
 
   @HostBinding('attr.dir')
   dir = 'ltr';
@@ -39,55 +51,19 @@ export class AkveoNewsLineComponent implements OnInit {
   @HostBinding('style.color')
   @Input() textColor = 'white';
 
-  get id() {
-    return `${HIDE_BANNER_KEY}${this.uniqueId}`;
-  }
+  constructor(protected sanitizer: DomSanitizer,
+              protected cd: ChangeDetectorRef,
+              protected appRef: ApplicationRef,
+              protected renderer: Renderer2) {
 
-  constructor(private sanitizer: DomSanitizer,
-              private cd: ChangeDetectorRef,
-              private appRef: ApplicationRef,
-              private renderer: Renderer2) {
+    super(cd, appRef, renderer);
   }
 
   ngOnInit() {
-    this.storage = window.localStorage;
     this.listenToVisibilityChange();
   }
 
-  closeBanner() {
-    if (this.storage) {
-      this.storage.setItem(this.id, 'true');
-    }
-    this.isHidden = true;
-    this.refresh();
-    this.renderer.removeClass(document.documentElement, BANNER_CLASS);
-  }
-
-  protected refresh () {
-    this.cd.markForCheck();
-    this.appRef.tick();
-  }
-
-  protected listenToVisibilityChange() {
-
-    const visibilityChange = (mq) => {
-      this.isHidden = mq.matches && !this.isHiddenByUser() ? null : true;
-
-      this.refresh();
-
-      if (!this.isHidden) {
-        this.renderer.addClass(document.documentElement, BANNER_CLASS);
-      } else {
-        this.renderer.removeClass(document.documentElement, BANNER_CLASS);
-      }
-    };
-    const mediaQuery = window.matchMedia('(min-width: 767px)');
-    mediaQuery.addListener(visibilityChange);
-    visibilityChange(mediaQuery);
-  }
-
-  protected isHiddenByUser() {
-    this.storage = window.localStorage;
-    return this.storage && this.storage.getItem(this.id) ? true : null;
+  ngAfterViewInit() {
+    this.fireEvent(this.openEvent);
   }
 }

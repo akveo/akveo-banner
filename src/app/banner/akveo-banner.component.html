@@ -6,6 +6,7 @@
       <a class="cta-link"
          [href]="ctaLink"
          target="_blank"
+         (click)="cta()"
          [style.background-color]="buttonBgColor"
          [style.box-shadow]="buttonShadow"
          [style.color]="buttonTextColor">
@@ -14,7 +15,7 @@
       {{ message }}
     </p>
   </div>
-  <button *ngIf="showClose" class="close-button" aria-label="close" (click)="closeBanner()">
+  <button *ngIf="showClose" class="close-button" aria-label="close" (click)="close()">
     <span>&times;</span>
   </button>
 </div>

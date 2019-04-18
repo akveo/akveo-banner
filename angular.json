@@ -7,7 +7,7 @@
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "",
+      "prefix": "akveo",
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
@@ -113,7 +113,7 @@
     "akveo-banner-e2e": {
       "root": "e2e/",
       "projectType": "application",
-      "prefix": "",
+      "prefix": "akveo",
       "architect": {
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
