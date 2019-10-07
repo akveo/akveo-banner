@@ -17,7 +17,7 @@ import { BaseBannerComponent } from '../base-banner.component';
   selector: 'akveo-banner',
   templateUrl: './akveo-banner.component.html',
   styleUrls: ['./akveo-banner.component.scss'],
-  encapsulation: ViewEncapsulation.Native
+  encapsulation: ViewEncapsulation.ShadowDom
 })
 export class AkveoBannerComponent extends BaseBannerComponent implements OnInit, AfterViewInit {
 
