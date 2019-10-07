@@ -39,6 +39,28 @@
       color: currentColor;
     }
   }
+
+  .overlay-link {
+    position: absolute;
+    top: 0;
+    right: 2.25rem;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+:host([dir=ltr]) {
+  .overlay-link {
+    left: 0;
+    right: 2.25rem;
+  }
+}
+
+:host([dir=rtl]) {
+  .overlay-link {
+    left: 2.25rem;
+    right: 0;
+  }
 }
 
 :host([hidden]) {
