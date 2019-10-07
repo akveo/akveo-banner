@@ -8,6 +8,7 @@
   </a>
   {{ messageEnd }}
 </p>
+<a class="overlay-link" [href]="ctaLink" (click)="cta()" target="_blank" aria-hidden="true"></a>
 <button *ngIf="showClose" class="close-button" aria-label="close" (click)="close()">
   <span>&times;</span>
 </button>

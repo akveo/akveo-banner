@@ -18,4 +18,5 @@
   <button *ngIf="showClose" class="close-button" aria-label="close" (click)="close()">
     <span>&times;</span>
   </button>
+  <a class="overlay-link" [href]="ctaLink" (click)="cta()" target="_blank" aria-hidden="true"></a>
 </div>
