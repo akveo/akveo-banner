@@ -10,12 +10,12 @@
       "prefix": "akveo",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
         "build": {
-          "builder": "ngx-build-plus:build",
+          "builder": "ngx-build-plus:browser",
           "options": {
             "outputPath": "dist/akveo-banner",
             "index": "src/index.html",
